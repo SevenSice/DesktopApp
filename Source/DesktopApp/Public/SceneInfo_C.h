@@ -31,11 +31,10 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	//返回目标点坐标
+
 	UFUNCTION()
 		FVector GetTargetActorLocation(int Index);
 
-	//返回目标点朝向
 	UFUNCTION()
 		FRotator GetTargetActorRotation(int Index);
 

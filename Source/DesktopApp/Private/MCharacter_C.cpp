@@ -62,8 +62,7 @@ void AMCharacter_C::MoveForward(float Value)
 	{
 		return;
 	}
-	//AddMovementInput(GetActorForwardVector() * Value);
-	//UE_LOG(LogTemp, Warning, TEXT("按下了！"));
+	
 	AddMovementInput(CameraComp->GetComponentRotation().Vector() * Value);
 
 }
@@ -81,20 +80,18 @@ void AMCharacter_C::MoveRight(float Value)
 
 void AMCharacter_C::MoveUp(float Value)
 {
-	//只允许在自由飞行模式使用。
+	
 	if (Move_State == MotionState::InSky)
 	{
 		if (GetCharacterMovement()->MovementMode == MOVE_Flying)
 		{
-			//AddMovementInput(FVector(0, 0, 1) *Value);
-			AddMovementInput(GetActorUpVector() *Value);
+			AddMovementInput(FVector(0, 0, 1) *Value);
+			//AddMovementInput(GetActorUpVector() *Value);
 		}
 	}
-
-
 }
 
-//左右旋转
+
 void AMCharacter_C::AddControlPitchInput(float Val)
 {
 	if (Move_State == MotionState::OnLanded || Move_State == MotionState::InSky)
@@ -103,35 +100,34 @@ void AMCharacter_C::AddControlPitchInput(float Val)
 	}
 }
 
-//上下旋转
+
 void AMCharacter_C::AddControlYawInput(float Val)
 {
 	APawn::AddControllerYawInput(Val);
 }
 
-//鼠标滚轮移动
+
 void AMCharacter_C::MouseWheelMove(float Value)
 {
 	if (Value > 0)
 	{
 		GetCharacterMovement()->MaxWalkSpeed = 2000.0f;
 
-		//UE_LOG(LogTemp, Warning, TEXT("Value = %f"),Value);
+	
 		AddMovementInput(CameraComp->GetComponentRotation().Vector() * Value);
 	}
 	else if (Value == 0)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Value = 0 "));
+
 	}
 	else
 	{
 
-		//UE_LOG(LogTemp, Warning, TEXT("Click Button Down！"));
 	}
 
 }
 
-//切换状态
+
 void AMCharacter_C::MoveOrFlying()
 {
 
@@ -166,8 +162,8 @@ void AMCharacter_C::Tick(float DeltaTime)
 }
 
 
-//触发开始位移
-void AMCharacter_C::Move_Start(int Index)
+
+void AMCharacter_C::Move_Start_toPoint(int Index)
 {
 	bMoving = true;
 	LastTeleportTime = GetWorld()->TimeSeconds;
@@ -177,7 +173,6 @@ void AMCharacter_C::Move_Start(int Index)
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASceneInfo_C::StaticClass(), ArryActors);
 	if (ArryActors.GetAllocatedSize() <= 0)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("ArryActors is Null ! "));
 		return;
 	}
 	TargetLocation = Cast<ASceneInfo_C>(ArryActors[0])->GetTargetActorLocation(Index);
@@ -189,7 +184,7 @@ void AMCharacter_C::Move_Start(int Index)
 
 }
 
-void AMCharacter_C::Move_Start(FVector MoveTargetLocation, FRotator MoveTargetRotation)
+void AMCharacter_C::Move_Start_toLocationAndRotation(FVector MoveTargetLocation, FRotator MoveTargetRotation)
 {
 	bMoving = true;
 	LastTeleportTime = GetWorld()->TimeSeconds;
@@ -198,7 +193,7 @@ void AMCharacter_C::Move_Start(FVector MoveTargetLocation, FRotator MoveTargetRo
 	TargetRotation = MoveTargetRotation;
 }
 
-//每帧位移函数
+
 void AMCharacter_C::SetActorToTargetLocation(FVector TargetLocation, float DeltaTime)
 {
 	if (bMoving == true)
@@ -209,7 +204,7 @@ void AMCharacter_C::SetActorToTargetLocation(FVector TargetLocation, float Delta
 	}
 }
 
-//每帧旋转角色函数
+
 void AMCharacter_C::SetActorToTargetRotation(FRotator TargetRotation, float DeltaTime)
 {
 	if (bMoving == true)
@@ -220,7 +215,7 @@ void AMCharacter_C::SetActorToTargetRotation(FRotator TargetRotation, float Delt
 	}
 }
 
-//每帧旋转控制器函数
+
 void AMCharacter_C::SetControlToTargetRotation(FRotator TargetRotation, float DeltaTime)
 {
 	if (bMoving == true)
@@ -232,7 +227,7 @@ void AMCharacter_C::SetControlToTargetRotation(FRotator TargetRotation, float De
 	}
 }
 
-//每帧旋转相机和相机臂函数(暂时无效)
+
 void AMCharacter_C::TurnCameraAndArm(FRotator TargetRotation, float DeltaTime)
 {
 	if (bMoving == true)
@@ -250,7 +245,9 @@ void AMCharacter_C::TurnCameraAndArm(FRotator TargetRotation, float DeltaTime)
 	}
 }
 
-//初始化属性
+
+
+
 void AMCharacter_C::InitController(float SpringArmLength, FRotator ControlRotator, float Camera_FieldOfView)
 {
 	SpringArmComp->TargetArmLength = SpringArmLength;

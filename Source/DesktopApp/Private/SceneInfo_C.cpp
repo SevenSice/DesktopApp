@@ -22,7 +22,6 @@ void ASceneInfo_C::BeginPlay()
 }
 
 
-//返回目标相机位置
 FVector ASceneInfo_C::GetTargetActorLocation(int Index)
 {
 	if (Index <= (GetTargetArrayLength() - 1) && Index >= 0)
@@ -31,11 +30,11 @@ FVector ASceneInfo_C::GetTargetActorLocation(int Index)
 
 		return TargetLocation;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Get Target Actor is Null ！"));
+	UE_LOG(LogTemp, Warning, TEXT("Get Target Actor is Null !"));
 	return FVector::ZeroVector;
 }
 
-//返回目标相机朝向
+
 FRotator ASceneInfo_C::GetTargetActorRotation(int Index)
 {
 	if (Index <= (GetTargetArrayLength() - 1) && Index >= 0)
@@ -44,11 +43,11 @@ FRotator ASceneInfo_C::GetTargetActorRotation(int Index)
 
 		return TargetRotation;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Get Target Actor is Null ！"));
+	//UE_LOG(LogTemp, Warning, TEXT("Get Target Actor is Null "));
 	return FRotator::ZeroRotator;
 }
 
-//返回目标数组长度
+
 int ASceneInfo_C::GetTargetArrayLength()
 {
 	int length = TargetActor.GetAllocatedSize() / 8;
